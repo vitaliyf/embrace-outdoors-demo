@@ -18,6 +18,7 @@
 		54C96F162C6B770F00F4A275 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C96F152C6B770F00F4A275 /* DetailView.swift */; };
 		54C96F182C6B771900F4A275 /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C96F172C6B771900F4A275 /* DetailViewModel.swift */; };
 		54C96F1A2C6B779A00F4A275 /* MainViewModel+Tracing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C96F192C6B779A00F4A275 /* MainViewModel+Tracing.swift */; };
+		54C96F222C6B78FE00F4A275 /* embrace_outdoors_iosUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C96F212C6B78FE00F4A275 /* embrace_outdoors_iosUITests.swift */; };
 		54EC94062C6B6F0300055212 /* EmbraceOutdoorsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54EC94052C6B6F0300055212 /* EmbraceOutdoorsApp.swift */; };
 		54EC94082C6B6F0300055212 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54EC94072C6B6F0300055212 /* MainView.swift */; };
 		54EC940A2C6B6F0400055212 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 54EC94092C6B6F0400055212 /* Assets.xcassets */; };
@@ -28,6 +29,16 @@
 		54EC94212C6B719F00055212 /* OTelExporterWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54EC94202C6B719F00055212 /* OTelExporterWrapper.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		54C96F252C6B78FE00F4A275 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 54EC93FA2C6B6F0300055212 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 54EC94012C6B6F0300055212;
+			remoteInfo = "embrace-outdoors-ios";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		54C96F0A2C6B751700F4A275 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		54C96F0C2C6B75E300F4A275 /* StatesList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatesList.swift; sourceTree = "<group>"; };
@@ -36,6 +47,8 @@
 		54C96F152C6B770F00F4A275 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		54C96F172C6B771900F4A275 /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
 		54C96F192C6B779A00F4A275 /* MainViewModel+Tracing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainViewModel+Tracing.swift"; sourceTree = "<group>"; };
+		54C96F1F2C6B78FE00F4A275 /* embrace-outdoors-iosUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "embrace-outdoors-iosUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		54C96F212C6B78FE00F4A275 /* embrace_outdoors_iosUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = embrace_outdoors_iosUITests.swift; sourceTree = "<group>"; };
 		54EC94022C6B6F0300055212 /* embrace-outdoors-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "embrace-outdoors-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		54EC94052C6B6F0300055212 /* EmbraceOutdoorsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmbraceOutdoorsApp.swift; sourceTree = "<group>"; };
 		54EC94072C6B6F0300055212 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -47,6 +60,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		54C96F1C2C6B78FE00F4A275 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		54EC93FF2C6B6F0300055212 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -90,10 +110,19 @@
 			path = Detail;
 			sourceTree = "<group>";
 		};
+		54C96F202C6B78FE00F4A275 /* embrace-outdoors-iosUITests */ = {
+			isa = PBXGroup;
+			children = (
+				54C96F212C6B78FE00F4A275 /* embrace_outdoors_iosUITests.swift */,
+			);
+			path = "embrace-outdoors-iosUITests";
+			sourceTree = "<group>";
+		};
 		54EC93F92C6B6F0300055212 = {
 			isa = PBXGroup;
 			children = (
 				54EC94042C6B6F0300055212 /* embrace-outdoors-ios */,
+				54C96F202C6B78FE00F4A275 /* embrace-outdoors-iosUITests */,
 				54EC94032C6B6F0300055212 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -102,6 +131,7 @@
 			isa = PBXGroup;
 			children = (
 				54EC94022C6B6F0300055212 /* embrace-outdoors-ios.app */,
+				54C96F1F2C6B78FE00F4A275 /* embrace-outdoors-iosUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -166,6 +196,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		54C96F1E2C6B78FE00F4A275 /* embrace-outdoors-iosUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 54C96F272C6B78FE00F4A275 /* Build configuration list for PBXNativeTarget "embrace-outdoors-iosUITests" */;
+			buildPhases = (
+				54C96F1B2C6B78FE00F4A275 /* Sources */,
+				54C96F1C2C6B78FE00F4A275 /* Frameworks */,
+				54C96F1D2C6B78FE00F4A275 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				54C96F262C6B78FE00F4A275 /* PBXTargetDependency */,
+			);
+			name = "embrace-outdoors-iosUITests";
+			productName = "embrace-outdoors-iosUITests";
+			productReference = 54C96F1F2C6B78FE00F4A275 /* embrace-outdoors-iosUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		54EC94012C6B6F0300055212 /* embrace-outdoors-ios */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 54EC94102C6B6F0400055212 /* Build configuration list for PBXNativeTarget "embrace-outdoors-ios" */;
@@ -200,6 +248,10 @@
 				LastSwiftUpdateCheck = 1530;
 				LastUpgradeCheck = 1530;
 				TargetAttributes = {
+					54C96F1E2C6B78FE00F4A275 = {
+						CreatedOnToolsVersion = 15.3;
+						TestTargetID = 54EC94012C6B6F0300055212;
+					};
 					54EC94012C6B6F0300055212 = {
 						CreatedOnToolsVersion = 15.3;
 					};
@@ -223,11 +275,19 @@
 			projectRoot = "";
 			targets = (
 				54EC94012C6B6F0300055212 /* embrace-outdoors-ios */,
+				54C96F1E2C6B78FE00F4A275 /* embrace-outdoors-iosUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		54C96F1D2C6B78FE00F4A275 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		54EC94002C6B6F0300055212 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -241,6 +301,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		54C96F1B2C6B78FE00F4A275 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				54C96F222C6B78FE00F4A275 /* embrace_outdoors_iosUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		54EC93FE2C6B6F0300055212 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -261,7 +329,49 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		54C96F262C6B78FE00F4A275 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 54EC94012C6B6F0300055212 /* embrace-outdoors-ios */;
+			targetProxy = 54C96F252C6B78FE00F4A275 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		54C96F282C6B78FE00F4A275 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7L6ZG648LR;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "io.embrace.embrace-outdoors-iosUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "embrace-outdoors-ios";
+			};
+			name = Debug;
+		};
+		54C96F292C6B78FE00F4A275 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7L6ZG648LR;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "io.embrace.embrace-outdoors-iosUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "embrace-outdoors-ios";
+			};
+			name = Release;
+		};
 		54EC940E2C6B6F0400055212 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -442,6 +552,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		54C96F272C6B78FE00F4A275 /* Build configuration list for PBXNativeTarget "embrace-outdoors-iosUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				54C96F282C6B78FE00F4A275 /* Debug */,
+				54C96F292C6B78FE00F4A275 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		54EC93FD2C6B6F0300055212 /* Build configuration list for PBXProject "embrace-outdoors-ios" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

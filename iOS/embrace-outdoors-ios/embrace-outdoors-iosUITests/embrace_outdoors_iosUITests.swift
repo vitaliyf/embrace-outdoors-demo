@@ -22,7 +22,13 @@ final class embrace_outdoors_iosUITests: XCTestCase {
         app = nil
     }
 
-    func testExample() throws {
-        
+    func testFlow() throws {
+        checkOnMainView()
+    }
+    
+    //MARK: Navigation
+    private func checkOnMainView() {
+        let mainListView = app.collectionViews["main-list-view"]
+        XCTAssertTrue(mainListView.waitForExistence(timeout: 2))
     }
 }

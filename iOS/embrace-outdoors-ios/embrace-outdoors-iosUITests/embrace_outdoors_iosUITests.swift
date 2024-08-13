@@ -59,6 +59,13 @@ final class embrace_outdoors_iosUITests: XCTestCase {
             guard let action = actionSet.randomElement() else {continue}
             action()
         }
+        
+        //Send to background to upload session
+        let settings = XCUIApplication(bundleIdentifier: "com.apple.Preferences")
+        settings.launch()
+        
+        XCTAssertTrue(app.wait(for: .runningBackground, timeout: 4.0))
+        app.terminate()
     }
     
     private func getNumberOfActions() -> Int {

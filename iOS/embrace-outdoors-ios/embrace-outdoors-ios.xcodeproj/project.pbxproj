@@ -12,6 +12,7 @@
 		54EC940A2C6B6F0400055212 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 54EC94092C6B6F0400055212 /* Assets.xcassets */; };
 		54EC940D2C6B6F0400055212 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 54EC940C2C6B6F0400055212 /* Preview Assets.xcassets */; };
 		54EC941A2C6B704C00055212 /* Embrace-Outdoors-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 54EC94192C6B704C00055212 /* Embrace-Outdoors-Info.plist */; };
+		54EC941D2C6B70E200055212 /* EmbraceIO in Frameworks */ = {isa = PBXBuildFile; productRef = 54EC941C2C6B70E200055212 /* EmbraceIO */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				54EC941D2C6B70E200055212 /* EmbraceIO in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -118,6 +120,9 @@
 			dependencies = (
 			);
 			name = "embrace-outdoors-ios";
+			packageProductDependencies = (
+				54EC941C2C6B70E200055212 /* EmbraceIO */,
+			);
 			productName = "embrace-outdoors-ios";
 			productReference = 54EC94022C6B6F0300055212 /* embrace-outdoors-ios.app */;
 			productType = "com.apple.product-type.application";
@@ -146,6 +151,9 @@
 				Base,
 			);
 			mainGroup = 54EC93F92C6B6F0300055212;
+			packageReferences = (
+				54EC941B2C6B70E200055212 /* XCRemoteSwiftPackageReference "embrace-apple-sdk" */,
+			);
 			productRefGroup = 54EC94032C6B6F0300055212 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -380,6 +388,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		54EC941B2C6B70E200055212 /* XCRemoteSwiftPackageReference "embrace-apple-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/embrace-io/embrace-apple-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.3.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		54EC941C2C6B70E200055212 /* EmbraceIO */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 54EC941B2C6B70E200055212 /* XCRemoteSwiftPackageReference "embrace-apple-sdk" */;
+			productName = EmbraceIO;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 54EC93FA2C6B6F0300055212 /* Project object */;
 }

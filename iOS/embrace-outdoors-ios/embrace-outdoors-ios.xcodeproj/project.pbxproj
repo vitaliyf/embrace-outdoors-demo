@@ -11,6 +11,10 @@
 		54C96F052C6B73DD00F4A275 /* OpenTelemetryProtocolExporterHTTP in Frameworks */ = {isa = PBXBuildFile; productRef = 54C96F042C6B73DD00F4A275 /* OpenTelemetryProtocolExporterHTTP */; };
 		54C96F072C6B73DD00F4A275 /* OpenTelemetrySdk in Frameworks */ = {isa = PBXBuildFile; productRef = 54C96F062C6B73DD00F4A275 /* OpenTelemetrySdk */; };
 		54C96F092C6B73DD00F4A275 /* StdoutExporter in Frameworks */ = {isa = PBXBuildFile; productRef = 54C96F082C6B73DD00F4A275 /* StdoutExporter */; };
+		54C96F0B2C6B751700F4A275 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C96F0A2C6B751700F4A275 /* MainViewModel.swift */; };
+		54C96F0D2C6B75E300F4A275 /* StatesList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C96F0C2C6B75E300F4A275 /* StatesList.swift */; };
+		54C96F0F2C6B763900F4A275 /* MainViewModel+Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C96F0E2C6B763900F4A275 /* MainViewModel+Networking.swift */; };
+		54C96F112C6B765B00F4A275 /* ParkRequestResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C96F102C6B765B00F4A275 /* ParkRequestResult.swift */; };
 		54EC94062C6B6F0300055212 /* EmbraceOutdoorsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54EC94052C6B6F0300055212 /* EmbraceOutdoorsApp.swift */; };
 		54EC94082C6B6F0300055212 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54EC94072C6B6F0300055212 /* MainView.swift */; };
 		54EC940A2C6B6F0400055212 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 54EC94092C6B6F0400055212 /* Assets.xcassets */; };
@@ -22,6 +26,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		54C96F0A2C6B751700F4A275 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
+		54C96F0C2C6B75E300F4A275 /* StatesList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatesList.swift; sourceTree = "<group>"; };
+		54C96F0E2C6B763900F4A275 /* MainViewModel+Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainViewModel+Networking.swift"; sourceTree = "<group>"; };
+		54C96F102C6B765B00F4A275 /* ParkRequestResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParkRequestResult.swift; sourceTree = "<group>"; };
 		54EC94022C6B6F0300055212 /* embrace-outdoors-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "embrace-outdoors-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		54EC94052C6B6F0300055212 /* EmbraceOutdoorsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmbraceOutdoorsApp.swift; sourceTree = "<group>"; };
 		54EC94072C6B6F0300055212 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -48,6 +56,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		54C96F122C6B766E00F4A275 /* MainViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				54C96F0A2C6B751700F4A275 /* MainViewModel.swift */,
+				54C96F0E2C6B763900F4A275 /* MainViewModel+Networking.swift */,
+			);
+			path = MainViewModel;
+			sourceTree = "<group>";
+		};
 		54EC93F92C6B6F0300055212 = {
 			isa = PBXGroup;
 			children = (
@@ -98,6 +115,7 @@
 			isa = PBXGroup;
 			children = (
 				54EC94072C6B6F0300055212 /* MainView.swift */,
+				54C96F122C6B766E00F4A275 /* MainViewModel */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -114,6 +132,8 @@
 		54EC94162C6B6FF900055212 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
+				54C96F0C2C6B75E300F4A275 /* StatesList.swift */,
+				54C96F102C6B765B00F4A275 /* ParkRequestResult.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -200,9 +220,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				54C96F112C6B765B00F4A275 /* ParkRequestResult.swift in Sources */,
+				54C96F0B2C6B751700F4A275 /* MainViewModel.swift in Sources */,
 				54EC941F2C6B717300055212 /* TimeInterval+MockTiming.swift in Sources */,
 				54EC94082C6B6F0300055212 /* MainView.swift in Sources */,
+				54C96F0D2C6B75E300F4A275 /* StatesList.swift in Sources */,
 				54EC94212C6B719F00055212 /* OTelExporterWrapper.swift in Sources */,
+				54C96F0F2C6B763900F4A275 /* MainViewModel+Networking.swift in Sources */,
 				54EC94062C6B6F0300055212 /* EmbraceOutdoorsApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

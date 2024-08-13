@@ -50,6 +50,20 @@ struct MainView: View {
                     Text(viewModel.networkingSectionHeaderText)
                 }
                 
+                // List of park items after request
+                if viewModel.requestResultsExist {
+                    Section {
+                        ForEach(viewModel.parksFromResult, id: \.fullName ) { park in
+                            NavigationLink {
+                                DetailView(park: park)
+                            } label: {
+                                Text(park.parkName)
+                            }
+                        }
+                    } header: {
+                        Text(viewModel.resultSectionHeaderText)
+                    }
+                }
             }
             .navigationTitle(Text(viewModel.titleText))
         } detail: {}

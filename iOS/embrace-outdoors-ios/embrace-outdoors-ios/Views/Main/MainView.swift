@@ -14,6 +14,20 @@ struct MainView: View {
         NavigationSplitView {
             List {
                 
+                // Sample traces
+                Section {
+                    Button {
+                        viewModel.buildNestedSpans()
+                    } label: { Text(viewModel.nestedTraceLabelText) }
+                    
+                    Button {
+                        viewModel.buildSpanWithConcurrentNetworkRequest()
+                    } label: { Text(viewModel.traceWithRequestLabelText) }
+
+                } header: {
+                    Text(viewModel.tracesSectionHeaderText)
+                }
+                
                 // Sampling of Embrace actions
                 Section {
                     Picker(viewModel.pickerText,

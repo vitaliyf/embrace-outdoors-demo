@@ -11,6 +11,21 @@ final class embrace_outdoors_iosUITests: XCTestCase {
 
     var app: XCUIApplication!
     
+    lazy var actionSet = [
+        tapNestedTracesButton,
+        tapRequestConcurrentTraceButton,
+        tapMockAuthTraceButton,
+        tapMockSearchTraceButton,
+        tapMockCheckoutTraceButton,
+        tapMockPermissionsTraceButton,
+        tapMockMiddlewareTraceButton,
+        tapWorkingNetworkRequestButton,
+        tapNSFNetworkRequestButton,
+        tapUnauthorizedRequestButton,
+//        tapPickerSelectorButton, TODO: Make this work
+        tapTimeoutRequestButton
+    ]
+    
     override func setUpWithError() throws {
         continueAfterFailure = false
         app = XCUIApplication()
@@ -30,5 +45,103 @@ final class embrace_outdoors_iosUITests: XCTestCase {
     private func checkOnMainView() {
         let mainListView = app.collectionViews["main-list-view"]
         XCTAssertTrue(mainListView.waitForExistence(timeout: 2))
+    }
+    
+    //MARK: Trace Actions
+    private func tapNestedTracesButton(){
+        checkOnMainView()
+        let button = app.buttons["nested-traces-button"].firstMatch
+        XCTAssertTrue(button.waitForExistence(timeout: 1))
+        button.tap()
+    }
+    
+    private func tapRequestConcurrentTraceButton(){
+        checkOnMainView()
+        let button = app.buttons["request-within-traces-button"].firstMatch
+        XCTAssertTrue(button.waitForExistence(timeout: 1))
+        button.tap()
+    }
+    
+    private func tapMockAuthTraceButton(){
+        checkOnMainView()
+        let button = app.buttons["mock-auth-traces-button"].firstMatch
+        XCTAssertTrue(button.waitForExistence(timeout: 1))
+        button.tap()
+    }
+    
+    private func tapMockSearchTraceButton(){
+        checkOnMainView()
+        let button = app.buttons["mock-search-traces-button"].firstMatch
+        XCTAssertTrue(button.waitForExistence(timeout: 1))
+        button.tap()
+    }
+    
+    private func tapMockCheckoutTraceButton(){
+        checkOnMainView()
+        let button = app.buttons["mock-checkout-traces-button"].firstMatch
+        XCTAssertTrue(button.waitForExistence(timeout: 1))
+        button.tap()
+    }
+    
+    private func tapMockPermissionsTraceButton(){
+        checkOnMainView()
+        let button = app.buttons["mock-permissions-traces-button"].firstMatch
+        XCTAssertTrue(button.waitForExistence(timeout: 1))
+        button.tap()
+    }
+    
+    private func tapMockMiddlewareTraceButton(){
+        checkOnMainView()
+        let button = app.buttons["mock-middleware-traces-button"].firstMatch
+        XCTAssertTrue(button.waitForExistence(timeout: 1))
+        button.tap()
+    }
+    
+    //MARK: Other Actions
+    private func tapWorkingNetworkRequestButton(){
+        checkOnMainView()
+        let button = app.buttons["working-network-request-button"].firstMatch
+        XCTAssertTrue(button.waitForExistence(timeout: 1))
+        button.tap()
+    }
+    
+    private func tapNSFNetworkRequestButton(){
+        checkOnMainView()
+        let button = app.buttons["nsf-request-button"].firstMatch
+        XCTAssertTrue(button.waitForExistence(timeout: 1))
+        button.tap()
+    }
+    
+    private func tapUnauthorizedRequestButton(){
+        checkOnMainView()
+        let button = app.buttons["unauthorized-request-button"].firstMatch
+        XCTAssertTrue(button.waitForExistence(timeout: 1))
+        button.tap()
+    }
+    
+    private func tapTimeoutRequestButton(){
+        checkOnMainView()
+        let button = app.buttons["timeout-request-button"].firstMatch
+        XCTAssertTrue(button.waitForExistence(timeout: 1))
+        button.tap()
+    }
+
+    private func tapCrashButton(){
+        checkOnMainView()
+        let button = app.buttons["force-crash-button"].firstMatch
+        XCTAssertTrue(button.waitForExistence(timeout: 1))
+        button.tap()
+    }
+    
+    private func tapPickerSelectorButton(){
+        //TODO: Make this work
+        checkOnMainView()
+        //UI ID: "states-picker"
+    }
+
+    private func tapParkResult(){
+        //TODO: Make this work
+        checkOnMainView()
+        //UI ID: "networking-results-list-section"
     }
 }

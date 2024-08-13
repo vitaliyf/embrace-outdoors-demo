@@ -23,7 +23,27 @@ struct MainView: View {
                     Button {
                         viewModel.buildSpanWithConcurrentNetworkRequest()
                     } label: { Text(viewModel.traceWithRequestLabelText) }
-
+                    
+                    Button {
+                        viewModel.buildMockAuthSpans()
+                    } label: { Text(viewModel.mockAuthLabelText) }
+                    
+                    Button {
+                        viewModel.buildMockSearchSpans()
+                    } label: { Text(viewModel.mockSearchLabelText) }
+                    
+                    Button {
+                        viewModel.buildMockCheckoutSpans()
+                    } label: { Text(viewModel.mockCheckoutLabelText) }
+                    
+                    Button {
+                        viewModel.buildMockPermissionsSpans()
+                    } label: { Text(viewModel.mockPermissionsLabelText) }
+                    
+                    Button {
+                        viewModel.buildMockMiddlewareNetworkingSpans()
+                    } label: { Text(viewModel.mockNetworkingMiddlewareLabelText) }
+                    
                 } header: {
                     Text(viewModel.tracesSectionHeaderText)
                 }

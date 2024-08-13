@@ -118,4 +118,393 @@ extension MainViewModel {
         traceRootSpan.end()
         
     }
+    
+    func buildMockMiddlewareNetworkingSpans() {
+        guard let client = Embrace.client else {return}
+                        
+        let parentStartTime = Date.now
+        let traceRootSpan = client//
+            .buildSpan(
+                name: "Network Request",
+                type: .ux
+            ).markAsKeySpan()
+            .setStartTime(time: parentStartTime)
+            .startSpan()
+        
+        let middlewareParentTime = parentStartTime.advanced(by: .mockMediumTimeInterval)
+        let middlewareParentSpan = client
+            .buildSpan(name: "Middleware/Intercept Network Request")
+            .setStartTime(time: middlewareParentTime)
+            .setParent(traceRootSpan)
+            .startSpan()
+        
+        let middlewareValidateRequestBodyTime = middlewareParentTime.advanced(by: .mockShortTimeInterval)
+        let middlewareValidateRequestBodySpan = client
+            .buildSpan(name: "Middleware/Validate Request Body")
+            .setStartTime(time: middlewareValidateRequestBodyTime)
+            .setParent(middlewareParentSpan)
+            .startSpan()
+        
+        let middlewareRemovePIISpan = client
+            .buildSpan(name: "Middleware/Remove Sensitive Request Body Info")
+            .setStartTime(time: middlewareValidateRequestBodyTime)
+            .setParent(middlewareValidateRequestBodySpan)
+            .startSpan()
+        
+        let middlewareValidateRequestBodyEndTime = middlewareValidateRequestBodyTime.advanced(by: .mockShortTimeInterval)
+        middlewareRemovePIISpan.end(time: middlewareValidateRequestBodyEndTime)
+
+        
+        let middlewareCompressSpan = client
+            .buildSpan(name: "Middleware/Compress Request Body")
+            .setStartTime(time: middlewareValidateRequestBodyEndTime)
+            .setParent(middlewareValidateRequestBodySpan)
+            .startSpan()
+        
+        let middlewareCompressEndSpan = middlewareValidateRequestBodyEndTime.advanced(by: .mockShortTimeInterval)
+        middlewareCompressSpan.end(time: middlewareCompressEndSpan)
+        middlewareValidateRequestBodySpan.end(time: middlewareCompressEndSpan)
+        
+        let addRequestHeadersSpan = client
+            .buildSpan(name: "Middleware/Add Request Headers")
+            .setStartTime(time: middlewareCompressEndSpan.advanced(by: -.mockShortTimeInterval))
+            .setParent(middlewareParentSpan)
+            .startSpan()
+        
+        addRequestHeadersSpan.end(time: middlewareCompressEndSpan.advanced(by: .mockShortTimeInterval))
+
+        let validateRequestURLSpan = client
+            .buildSpan(name: "Middleware/Validate Request URL")
+            .setStartTime(time: middlewareCompressEndSpan.advanced(by: -.mockShortTimeInterval))
+            .setParent(middlewareParentSpan)
+            .startSpan()
+        
+        validateRequestURLSpan.end(time: middlewareCompressEndSpan.advanced(by: .mockShortTimeInterval))
+        
+        let endTime = middlewareCompressEndSpan.advanced(by: .mockMediumTimeInterval)
+        middlewareParentSpan.end(time: endTime)
+        traceRootSpan.end(time: endTime)
+    }
+    
+    func buildMockCheckoutSpans() {
+        guard let client = Embrace.client else {return}
+        
+        let parentStartTime = Date.now
+        let traceRootSpan = client//
+            .buildSpan(
+                name: "Enter Checkout Flow",
+                type: .ux
+            ).markAsKeySpan()
+            .setStartTime(time: parentStartTime)
+            .startSpan()
+        
+        let navigateCheckoutInitialTime = parentStartTime.advanced(by: .mockShortTimeInterval)
+        let navigateCheckoutInitialSpan = client//
+            .buildSpan(name: "UI/Navigate to Checkout Initial Screen")
+            .setParent(traceRootSpan)
+            .setStartTime(time: navigateCheckoutInitialTime)
+            .startSpan()
+        
+        let confirmInventoryRequestTime = navigateCheckoutInitialTime.advanced(by: .mockShortTimeInterval)
+        let confirmInventoryRequestSpan = client//
+            .buildSpan(name: "Network/Confirm Inventory Request")
+            .setParent(navigateCheckoutInitialSpan)
+            .setStartTime(time: confirmInventoryRequestTime)
+            .startSpan()
+        
+        let confirmCustomerAddresssTime = navigateCheckoutInitialTime.advanced(by: .mockShortTimeInterval)
+        let confirmCustomerAddresssSpan = client
+            .buildSpan(name: "UI/Confirm Customer Address")
+            .setParent(navigateCheckoutInitialSpan)
+            .setStartTime(time: confirmCustomerAddresssTime)
+            .startSpan()
+        
+        confirmInventoryRequestSpan.end(time: confirmInventoryRequestTime.advanced(by: .mockShortTimeInterval))
+        confirmCustomerAddresssSpan.end(time: confirmInventoryRequestTime.advanced(by: .mockMediumTimeInterval))
+        
+        let inventoryRequestEndTime = confirmInventoryRequestTime.advanced(by: .mockMediumTimeInterval)
+        confirmCustomerAddresssSpan.end(time: inventoryRequestEndTime)
+        navigateCheckoutInitialSpan.end(time: inventoryRequestEndTime)
+        
+        let navigateCheckoutPaymentTime = inventoryRequestEndTime.advanced(by: .mockShortTimeInterval)
+        let navigateCheckoutPaymentSpan = client//
+            .buildSpan(name: "UI/Navigate to Checkout Payment Screen")
+            .setParent(traceRootSpan)
+            .setStartTime(time: navigateCheckoutPaymentTime)
+            .startSpan()
+        
+        let makeFirstPaymentRequestTime = navigateCheckoutPaymentTime.advanced(by: .mockShortTimeInterval)
+        let makeFirstPaymentRequestSpan = client//
+            .buildSpan(name: "Network/Make Payment Request")
+            .setParent(navigateCheckoutPaymentSpan)
+            .setStartTime(time: navigateCheckoutPaymentTime)
+            .startSpan()
+        
+        let firstPaymentRequestEndTime = makeFirstPaymentRequestTime.advanced(by: .mockMediumTimeInterval)
+        makeFirstPaymentRequestSpan.end(errorCode: .failure, time: firstPaymentRequestEndTime)
+        
+        let updateCCTime = firstPaymentRequestEndTime.advanced(by: .mockShortTimeInterval)
+        let updateCCSpan = client//
+            .buildSpan(name: "UI/Update Credit Card")
+            .setParent(navigateCheckoutPaymentSpan)
+            .setStartTime(time: updateCCTime)
+            .startSpan()
+        
+        let updateCCEndTime = updateCCTime.advanced(by: .mockMediumTimeInterval)
+        updateCCSpan.end(time: updateCCEndTime)
+        
+        let makeSecondPaymentRequestTime = updateCCEndTime.advanced(by: .mockShortTimeInterval)
+        let makeSecondPaymentRequestSpan = client//
+            .buildSpan(name: "Network/Make Payment Request")
+            .setParent(navigateCheckoutPaymentSpan)
+            .setStartTime(time: makeSecondPaymentRequestTime)
+            .startSpan()
+        
+        let endTime = makeSecondPaymentRequestTime.advanced(by: .mockMediumTimeInterval)
+        makeSecondPaymentRequestSpan.end(time: endTime)
+        navigateCheckoutPaymentSpan.end(time: endTime)
+                
+        traceRootSpan.end(time: endTime.advanced(by: .mockShortTimeInterval))
+    }
+    
+    func buildMockPermissionsSpans() {
+        guard let client = Embrace.client else {return}
+                
+        let parentStartTime = Date.now
+        let traceRootSpan = client//
+            .buildSpan(
+                name: "Browse Local Restaurants",
+                type: .ux
+            ).markAsKeySpan()
+            .setStartTime(time: parentStartTime)
+            .startSpan()
+        
+        let fetchLocationPermissionTime = parentStartTime.advanced(by: .mockShortTimeInterval)
+        let fetchLocationPermissionSpan = client
+            .buildSpan(name: "Permissions/Fetch Location Permissions")
+            .setParent(traceRootSpan)
+            .setStartTime(time: fetchLocationPermissionTime)
+            .startSpan()
+        
+        let fetchLocationPermissionEndTime = fetchLocationPermissionTime.advanced(by: .mockShortTimeInterval)
+        fetchLocationPermissionSpan.end(time: fetchLocationPermissionEndTime)
+        
+        let askForLocationPermissionSpan = client
+            .buildSpan(name: "Permission/Ask for Location Permission")
+            .setParent(traceRootSpan)
+            .setStartTime(time: fetchLocationPermissionEndTime)
+            .startSpan()
+
+        let showLocationModalTime = fetchLocationPermissionEndTime.advanced(by: .mockShortTimeInterval)
+        let showLocationModalSpan = client
+            .buildSpan(name: "UI/Show Ask for Location Modal")
+            .setParent(askForLocationPermissionSpan)
+            .setStartTime(time: showLocationModalTime)
+            .startSpan()
+        
+        let showLocationModalEndTime = showLocationModalTime.advanced(by: .mockMediumTimeInterval)
+        showLocationModalSpan.end(time: showLocationModalEndTime)
+        askForLocationPermissionSpan.end(time: showLocationModalEndTime)
+        
+        let getUserLocationTime = showLocationModalEndTime.advanced(by: .mockShortTimeInterval)
+        let getUserLocationSpan = client//
+            .buildSpan(name: "Location/Get User Location")
+            .setParent(traceRootSpan)
+            .setStartTime(time: showLocationModalTime)
+            .startSpan()
+        
+        let getUserLocationEndTime = getUserLocationTime.advanced(by: .mockMediumTimeInterval)
+        getUserLocationSpan.end(time: getUserLocationEndTime)
+        
+        let networkRequestSpan = client//
+            .buildSpan(name: "Network/Request Restaurants by Location")
+            .setParent(traceRootSpan)
+            .setStartTime(time: getUserLocationEndTime)
+            .startSpan()
+        
+        networkRequestSpan.end(time: getUserLocationEndTime.advanced(by: .mockMediumTimeInterval))
+        
+        let uxFakeTime = getUserLocationEndTime.advanced(by: .mockLongTimeInterval)
+        let uxFakeSpan = client//
+            .buildSpan(name: "UX/...")
+            .setParent(traceRootSpan)
+            .setStartTime(time: uxFakeTime)
+            .startSpan()
+        
+        uxFakeSpan.end(time: uxFakeTime.advanced(by: .mockShortTimeInterval))
+        traceRootSpan.end(time: uxFakeTime.advanced(by: .mockMediumTimeInterval))
+    }
+    
+    func buildMockAuthSpans() {
+        guard let client = Embrace.client else {return}
+        let parentStartTime = Date.now
+        let traceRootSpan = client//
+            .buildSpan(
+                name: "Attempt Login",
+                type: .ux
+            ).markAsKeySpan()
+            .setStartTime(time: parentStartTime)
+            .startSpan()
+        
+        let checkCredentialCacheTime = parentStartTime.advanced(by: .mockShortTimeInterval)
+        let checkCredentialCacheSpan = client//
+            .buildSpan(name: "LocalMem/Retrieve Credential Cache")
+            .setParent(traceRootSpan)
+            .setStartTime(time: checkCredentialCacheTime)
+            .startSpan()
+        
+        let checkCredentialExpiryTime = checkCredentialCacheTime.advanced(by: .mockShortTimeInterval)
+        let checkCredentialExpirySpan = client//
+            .buildSpan(name: "LocalMem/Check Credential Expiry")
+            .setParent(checkCredentialCacheSpan)
+            .setStartTime(time: checkCredentialExpiryTime)
+            .startSpan()
+        
+        let useBioMetricsTime = checkCredentialExpiryTime.advanced(by: .mockShortTimeInterval)
+        checkCredentialExpirySpan.end(time: useBioMetricsTime)
+        checkCredentialCacheSpan.end(time: useBioMetricsTime)
+        
+        let useBioMetricsSpan = client//
+            .buildSpan(name: "System/Use Biometrics")
+            .setParent(traceRootSpan)
+            .setStartTime(time: useBioMetricsTime)
+            .startSpan()
+
+        let navigateToLoginTime = useBioMetricsTime.advanced(by: .mockMediumTimeInterval)
+        useBioMetricsSpan.end(time: navigateToLoginTime)
+        
+        let navigateToLoginSpan = client//
+            .buildSpan(name: "UI/Navigate to Login Screen")
+            .setParent(traceRootSpan)
+            .setStartTime(time: navigateToLoginTime)
+            .startSpan()
+        
+        let enterUserNameTime = navigateToLoginTime.advanced(by: .mockMediumTimeInterval)
+        let enterUserNameSpan = client//
+            .buildSpan(name: "UI/Enter Username")
+            .setParent(navigateToLoginSpan)
+            .setStartTime(time: enterUserNameTime)
+            .startSpan()
+
+        let enterPasswordTime = enterUserNameTime.advanced(by: .mockMediumTimeInterval)
+        enterUserNameSpan.end(time: enterPasswordTime)
+        
+        let enterPasswordSpan = client//
+            .buildSpan(name: "UI/Enter Password")
+            .setParent(navigateToLoginSpan)
+            .setStartTime(time: enterPasswordTime)
+            .startSpan()
+        
+        let tapLoginTime = enterPasswordTime.advanced(by: .mockShortTimeInterval)
+        enterPasswordSpan.end(time: tapLoginTime)
+        
+        let tapLoginSpan = client//
+            .buildSpan(name: "UI/Tap Login")
+            .setParent(navigateToLoginSpan)
+            .setStartTime(time: tapLoginTime)
+            .startSpan()
+        tapLoginSpan.end(time: tapLoginTime.advanced(by: .mockShortTimeInterval))
+        navigateToLoginSpan.end(time: tapLoginTime.advanced(by: .mockShortTimeInterval))
+        
+        let sendLoginRequestSpan = client//
+            .buildSpan(name: "Network/Send Login Request")
+            .setParent(traceRootSpan)
+            .setStartTime(time: tapLoginTime)
+            .startSpan()
+        
+        let loginRequestEndTime = tapLoginTime.advanced(by: .mockMediumTimeInterval)
+        sendLoginRequestSpan.end(time: loginRequestEndTime)
+        
+        let navigateToTwoFactorSpan = client//
+            .buildSpan(name: "UI/Navigate to Two-Factor")
+            .setParent(traceRootSpan)
+            .setStartTime(time: loginRequestEndTime)
+            .startSpan()
+        let sendTwoFactorTime = loginRequestEndTime.advanced(by: .mockShortTimeInterval)
+        navigateToTwoFactorSpan.end(time: sendTwoFactorTime)
+        
+        let sendTwoFactorSpan = client//
+            .buildSpan(name: "Network/Send Two-Factor")
+            .setParent(navigateToTwoFactorSpan)
+            .setStartTime(time: sendTwoFactorTime)
+            .startSpan()
+        
+        let endTime = sendTwoFactorTime.advanced(by: .mockMediumTimeInterval)
+        sendTwoFactorSpan.end(time: endTime)
+        traceRootSpan.end(time: endTime)
+    }
+    
+    func buildMockSearchSpans() {
+        guard let client = Embrace.client else {return}
+        let parentStartTime = Date.now
+        let traceRootSpan = client
+            .buildSpan(
+                name: "Enter Search",
+                type: .ux
+            ).markAsKeySpan()
+            .setStartTime(time: parentStartTime)
+            .startSpan()
+        
+        let boxAppearsTime = parentStartTime.advanced(by: .mockShortTimeInterval)
+        let boxAppearsSpan = client
+            .buildSpan(name: "UI/Search Box Appears")
+            .markAsKeySpan()
+            .setParent(traceRootSpan)
+            .setStartTime(time: boxAppearsTime)
+            .startSpan()
+        
+        let firstTextTime = boxAppearsTime.advanced(by: .mockShortTimeInterval)
+        let cchildSpan = client//
+            .buildSpan(name: "UI/Search Text Entered")
+            .markAsKeySpan()
+            .setParent(traceRootSpan)
+            .setStartTime(time: firstTextTime)
+            .startSpan()
+        
+        let firstRequestMadeTime = firstTextTime.advanced(by: .mockShortTimeInterval)
+        let ccchildSpan = client//
+            .buildSpan(name: "Network/Search Text Request")
+            .markAsKeySpan()
+            .setParent(cchildSpan)
+            .setStartTime(time: firstRequestMadeTime)
+            .startSpan()
+        
+        let firstRequestMadeEndTime = firstRequestMadeTime.advanced(by: .mockMediumTimeInterval)
+
+        let cachedTime = firstRequestMadeEndTime
+        let accccchildSpan = client//
+            .buildSpan(name: "LocalMem/Search Response Cached")
+            .markAsKeySpan()
+            .setParent(cchildSpan)
+            .setStartTime(time: cachedTime)
+            .startSpan()
+        
+        let secondTextTime = firstTextTime.advanced(by: .mockShortTimeInterval)
+        let acchildSpan = client//
+            .buildSpan(name: "UI/Search Text Changed")
+            .markAsKeySpan()
+            .setParent(traceRootSpan)
+            .setStartTime(time: secondTextTime)
+            .startSpan()
+        
+        let dccchildSpan = client//
+            .buildSpan(name: "Network/Search Text Request Made")
+            .markAsKeySpan()
+            .setParent(acchildSpan)
+            .setStartTime(time: secondTextTime.advanced(by: .mockShortTimeInterval))
+            .startSpan()
+        let endTime = secondTextTime.advanced(by: .mockMediumTimeInterval)
+        
+        dccchildSpan.end(
+            errorCode: .failure,
+            time: endTime
+        )
+        acchildSpan.end(time: secondTextTime.advanced(by: .mockShortTimeInterval))
+        accccchildSpan.end(time: cachedTime + .mockShortTimeInterval)
+        ccchildSpan.end(time: firstRequestMadeEndTime)
+        cchildSpan.end(time: firstTextTime.advanced(by: .mockShortTimeInterval))
+        boxAppearsSpan.end(time: boxAppearsTime.advanced(by: .mockShortTimeInterval))
+        traceRootSpan.end(time: endTime)
+        
+    }
 }

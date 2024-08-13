@@ -39,6 +39,30 @@ final class embrace_outdoors_iosUITests: XCTestCase {
 
     func testFlow() throws {
         checkOnMainView()
+        
+        var numberOfActions = getNumberOfActions()
+        
+        for _ in 0...numberOfActions {
+            guard let action = actionSet.randomElement() else {continue}
+            action()
+        }
+        
+        //TODO: Make this variable by device OS version
+        let probability = Int.random(in: 0...99)
+        if probability > 98 {
+            tapCrashButton()
+        }
+        
+        numberOfActions = getNumberOfActions()
+        
+        for _ in 0...numberOfActions {
+            guard let action = actionSet.randomElement() else {continue}
+            action()
+        }
+    }
+    
+    private func getNumberOfActions() -> Int {
+        Int.random(in: 1...6)
     }
     
     //MARK: Navigation

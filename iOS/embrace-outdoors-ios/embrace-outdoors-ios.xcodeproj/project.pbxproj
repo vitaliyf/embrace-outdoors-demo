@@ -13,6 +13,7 @@
 		54EC940D2C6B6F0400055212 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 54EC940C2C6B6F0400055212 /* Preview Assets.xcassets */; };
 		54EC941A2C6B704C00055212 /* Embrace-Outdoors-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 54EC94192C6B704C00055212 /* Embrace-Outdoors-Info.plist */; };
 		54EC941D2C6B70E200055212 /* EmbraceIO in Frameworks */ = {isa = PBXBuildFile; productRef = 54EC941C2C6B70E200055212 /* EmbraceIO */; };
+		54EC941F2C6B717300055212 /* TimeInterval+MockTiming.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54EC941E2C6B717300055212 /* TimeInterval+MockTiming.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		54EC94092C6B6F0400055212 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		54EC940C2C6B6F0400055212 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		54EC94192C6B704C00055212 /* Embrace-Outdoors-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Embrace-Outdoors-Info.plist"; sourceTree = "<group>"; };
+		54EC941E2C6B717300055212 /* TimeInterval+MockTiming.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimeInterval+MockTiming.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +95,7 @@
 		54EC94152C6B6FEE00055212 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				54EC941E2C6B717300055212 /* TimeInterval+MockTiming.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -181,6 +184,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				54EC941F2C6B717300055212 /* TimeInterval+MockTiming.swift in Sources */,
 				54EC94082C6B6F0300055212 /* MainView.swift in Sources */,
 				54EC94062C6B6F0300055212 /* EmbraceOutdoorsApp.swift in Sources */,
 			);

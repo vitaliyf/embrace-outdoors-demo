@@ -6,12 +6,29 @@
 //
 
 import SwiftUI
+import EmbraceIO
 
 @main
 struct EmbraceOutdoorsApp: App {
     var body: some Scene {
         WindowGroup {
             MainView()
+        }
+    }
+    
+    init() {
+        do {
+            try Embrace.setup(
+                options: Embrace.Options(
+                    appId: "NOEMB",
+                    platform: .default,
+                    export: nil
+                )
+            )
+            .start()
+            
+        } catch let e {
+            print("Couldn't initialize Embrace SDK: \(e.localizedDescription)")
         }
     }
 }

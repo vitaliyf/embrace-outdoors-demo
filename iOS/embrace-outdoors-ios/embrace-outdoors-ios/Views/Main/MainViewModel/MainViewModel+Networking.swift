@@ -46,7 +46,8 @@ extension MainViewModel {
             do {
                 let decodedData = try JSONDecoder().decode(ParkRequestResult.self, from: data)
                 DispatchQueue.main.async {
-                    print(decodedData)
+                    self.requestResult = decodedData
+                    self.requestedState = self.selectedState
                 }
             } catch {
                 print(error)

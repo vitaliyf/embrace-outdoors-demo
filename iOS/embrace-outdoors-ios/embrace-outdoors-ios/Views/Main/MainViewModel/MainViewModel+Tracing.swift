@@ -448,61 +448,55 @@ extension MainViewModel {
         let boxAppearsTime = parentStartTime.advanced(by: .mockShortTimeInterval)
         let boxAppearsSpan = client
             .buildSpan(name: "UI/Search Box Appears")
-            .markAsKeySpan()
             .setParent(traceRootSpan)
             .setStartTime(time: boxAppearsTime)
             .startSpan()
         
         let firstTextTime = boxAppearsTime.advanced(by: .mockShortTimeInterval)
-        let cchildSpan = client//
+        let firstTextSpan = client//
             .buildSpan(name: "UI/Search Text Entered")
-            .markAsKeySpan()
             .setParent(traceRootSpan)
             .setStartTime(time: firstTextTime)
             .startSpan()
         
         let firstRequestMadeTime = firstTextTime.advanced(by: .mockShortTimeInterval)
-        let ccchildSpan = client//
+        let firstRequestMadeSpan = client//
             .buildSpan(name: "Network/Search Text Request")
-            .markAsKeySpan()
-            .setParent(cchildSpan)
+            .setParent(firstTextSpan)
             .setStartTime(time: firstRequestMadeTime)
             .startSpan()
         
         let firstRequestMadeEndTime = firstRequestMadeTime.advanced(by: .mockMediumTimeInterval)
 
         let cachedTime = firstRequestMadeEndTime
-        let accccchildSpan = client//
+        let cachedSpan = client//
             .buildSpan(name: "LocalMem/Search Response Cached")
-            .markAsKeySpan()
-            .setParent(cchildSpan)
+            .setParent(firstTextSpan)
             .setStartTime(time: cachedTime)
             .startSpan()
         
         let secondTextTime = firstTextTime.advanced(by: .mockShortTimeInterval)
-        let acchildSpan = client//
+        let secondTextSpan = client//
             .buildSpan(name: "UI/Search Text Changed")
-            .markAsKeySpan()
             .setParent(traceRootSpan)
             .setStartTime(time: secondTextTime)
             .startSpan()
         
-        let dccchildSpan = client//
+        let secondRequestMadeSpan = client//
             .buildSpan(name: "Network/Search Text Request Made")
-            .markAsKeySpan()
-            .setParent(acchildSpan)
+            .setParent(secondTextSpan)
             .setStartTime(time: secondTextTime.advanced(by: .mockShortTimeInterval))
             .startSpan()
         let endTime = secondTextTime.advanced(by: .mockMediumTimeInterval)
         
-        dccchildSpan.end(
+        secondRequestMadeSpan.end(
             errorCode: .failure,
             time: endTime
         )
-        acchildSpan.end(time: secondTextTime.advanced(by: .mockShortTimeInterval))
-        accccchildSpan.end(time: cachedTime + .mockShortTimeInterval)
-        ccchildSpan.end(time: firstRequestMadeEndTime)
-        cchildSpan.end(time: firstTextTime.advanced(by: .mockShortTimeInterval))
+        secondTextSpan.end(time: secondTextTime.advanced(by: .mockShortTimeInterval))
+        cachedSpan.end(time: cachedTime + .mockShortTimeInterval)
+        firstRequestMadeSpan.end(time: firstRequestMadeEndTime)
+        firstTextSpan.end(time: firstTextTime.advanced(by: .mockShortTimeInterval))
         boxAppearsSpan.end(time: boxAppearsTime.advanced(by: .mockShortTimeInterval))
         traceRootSpan.end(time: endTime)
         

@@ -40,6 +40,7 @@ final class embrace_outdoors_iosUITests: XCTestCase {
     func testFlow() throws {
         checkOnMainView()
         
+        // Do stuff
         var numberOfActions = getNumberOfActions()
         
         for _ in 0...numberOfActions {
@@ -47,12 +48,14 @@ final class embrace_outdoors_iosUITests: XCTestCase {
             action()
         }
         
+        // Maybe crash
         //TODO: Make this variable by device OS version
         let probability = Int.random(in: 0...99)
         if probability > 98 {
             tapCrashButton()
         }
         
+        // Do more stuff
         numberOfActions = getNumberOfActions()
         
         for _ in 0...numberOfActions {
@@ -64,7 +67,7 @@ final class embrace_outdoors_iosUITests: XCTestCase {
         let settings = XCUIApplication(bundleIdentifier: "com.apple.Preferences")
         settings.launch()
         
-        XCTAssertTrue(app.wait(for: .runningBackground, timeout: 4.0))
+        XCTAssertTrue(app.wait(for: .runningBackground, timeout: 2.0))
         app.terminate()
     }
     

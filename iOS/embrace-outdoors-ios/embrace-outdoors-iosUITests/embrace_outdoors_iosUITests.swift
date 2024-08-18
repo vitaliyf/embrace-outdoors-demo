@@ -40,30 +40,30 @@ final class embrace_outdoors_iosUITests: XCTestCase {
     func testFlow() throws {
         checkOnMainView()
         
-        // Do stuff
-        var numberOfActions = getNumberOfActions()
-        
-        for _ in 0...numberOfActions {
-            guard let action = actionSet.randomElement() else {continue}
-            action()
+        // pick number of sessions
+        for _ in 0...getNumberOfSessions() {
+            // Do stuff
+            runRandomActions()
+            
+            // Maybe crash
+            //TODO: Make this variable by device OS version
+            let probability = Int.random(in: 0...99)
+            if probability > 98 {
+                tapCrashButton()
+            }
+            
+            // Do more stuff
+            runRandomActions()
+
+            //Send to background to upload session
+            let settings = XCUIApplication(bundleIdentifier: "com.apple.Preferences")
+            settings.launch()
+            XCTAssertTrue(app.wait(for: .runningBackground, timeout: 2.0))
+            app.activate()
         }
         
-        // Maybe crash
-        //TODO: Make this variable by device OS version
-        let probability = Int.random(in: 0...99)
-        if probability > 98 {
-            tapCrashButton()
-        }
         
-        // Do more stuff
-        numberOfActions = getNumberOfActions()
-        
-        for _ in 0...numberOfActions {
-            guard let action = actionSet.randomElement() else {continue}
-            action()
-        }
-        
-        //Send to background to upload session
+        //complete to send to background to upload session
         let settings = XCUIApplication(bundleIdentifier: "com.apple.Preferences")
         settings.launch()
         
@@ -71,8 +71,19 @@ final class embrace_outdoors_iosUITests: XCTestCase {
         app.terminate()
     }
     
+    private func runRandomActions() {
+        for _ in 0...getNumberOfActions() {
+            guard let action = actionSet.randomElement() else {continue}
+            action()
+        }
+    }
+    
     private func getNumberOfActions() -> Int {
-        Int.random(in: 1...6)
+        Int.random(in: 3...7)
+    }
+    
+    private func getNumberOfSessions() -> Int {
+        Int.random(in: 1...4)
     }
     
     //MARK: Navigation

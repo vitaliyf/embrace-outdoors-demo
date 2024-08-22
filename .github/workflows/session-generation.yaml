@@ -5,72 +5,33 @@ on:
   
 jobs:
   xcodebuild:
-    timeout-minutes: 120
-    runs-on: self-hosted
+    timeout-minutes: 40
+    runs-on: macos-14
     strategy:
-        fail-fast: false
-
+      fail-fast: false
+      matrix:
+        xcode_version: ["15.4"]
     steps:
-        - uses: actions/checkout@v4
-          timeout-minutes: 2
+      - name: Select Xcode
+        # See https://github.com/actions/runner-images/blob/main/images/macos/macos-14-Readme.md
+        run: |
+            sudo xcode-select -s /Applications/Xcode_${{ matrix.xcode_version }}.app
+            xcodebuild -version
+      - uses: actions/checkout@v4
+        timeout-minutes: 2
         
-        - name: Get All Available iPhone Simulators
-          run: |
-            AVAILABLE_iOS_DEVICE_IDS=$(xcrun simctl list devices available --json | jq -r '.devices[] | .[] | select(.name | startswith("iPhone")) | .udid')
-              
-            if [ -z "$AVAILABLE_iOS_DEVICE_IDS" ]; then
-                echo "No available iPhone simulators found."
-                exit 1
-            fi
-            
-            AVAILABLE_iOS_DEVICE_IDS=$(printf "%s," ${AVAILABLE_iOS_DEVICE_IDS[@]})
-            echo "AVAILABLE_iOS_DEVICE_IDS=$AVAILABLE_iOS_DEVICE_IDS" >> $GITHUB_ENV
-          timeout-minutes: 5
-          continue-on-error: true
-        
-        - name: Clone Available Simulators
-          run: |
-            clone_suffixes=("a" "b" "c" "d")
-            IFS="," read -ra device_ids <<< "${AVAILABLE_iOS_DEVICE_IDS}"
-            
-            declare -a CLONED_DEVICE_LIST=()
-                        
-            for i in ${device_ids[@]}
-            do
-                for j in ${clone_suffixes[@]}
-                do
-                    device_name="${i}${j}"
-                    xcrun simctl clone $i $device_name
-                    CLONED_DEVICE_LIST+=(${device_name})
-                done
-            done
-            
-            CLONED_DEVICE_LIST=$(printf "%s," ${CLONED_DEVICE_LIST[@]})
-            echo "CLONED_DEVICE_LIST=$CLONED_DEVICE_LIST" >> $GITHUB_ENV
-          timeout-minutes: 5
-          continue-on-error: false
-        
-        - name: Run Tests With Cloned Simulators
-          env:
+      - name: Test run onto Simulator
+        env:
+            IS_XCTEST: true
             PROJECT_DIR: ./iOS/embrace-outdoors-ios
             PROJECT_NAME: embrace-outdoors-ios.xcodeproj
             SCHEME: embrace-outdoors-ios
-            IS_XCTEST: true
-          run: |
-            IFS="," read -ra cloned_devices <<< "${CLONED_DEVICE_LIST}"
+        run: |
+        
+            xcrun simctl boot "iPhone 15"
+            xcrun simctl bootstatus "iPhone 15" && sleep 2
             
-            echo "Cloned device count:"
-            echo "${#cloned_devices[@]}"
-            
-            for device in ${cloned_devices[@]}
-            do
-                xcrun simctl boot $device
-                xcrun simctl bootstatus $device && sleep 2
-                
-                xcodebuild test -project "$PROJECT_DIR/$PROJECT_NAME" \
-                CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO \
-                -scheme $SCHEME \
-                -destination 'platform=iOS Simulator,name=$device' \
-                    
-                xcrun simctl delete $device
-            done
+            xcodebuild test -project "$PROJECT_DIR/$PROJECT_NAME" \
+            CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO \
+            -scheme $SCHEME \
+            -destination 'platform=iOS Simulator,name=iPhone 15' \

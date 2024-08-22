@@ -2,10 +2,12 @@ name: Session Generator - Xcode
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: * * * * *
   
 jobs:
   xcodebuild:
-    timeout-minutes: 40
+    timeout-minutes: 60
     runs-on: macos-14
     strategy:
       fail-fast: false
@@ -35,3 +37,19 @@ jobs:
             CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO \
             -scheme $SCHEME \
             -destination 'platform=iOS Simulator,name=iPhone 15' \
+            
+            xcrun simctl boot "iPhone 15 Plus"
+            xcrun simctl bootstatus "iPhone 15 Plus" && sleep 2
+            
+            xcodebuild test -project "$PROJECT_DIR/$PROJECT_NAME" \
+            CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO \
+            -scheme $SCHEME \
+            -destination 'platform=iOS Simulator,name=iPhone 15 Plus' \
+
+            xcrun simctl boot "iPhone 15 Pro"
+            xcrun simctl bootstatus "iPhone 15 Pro" && sleep 2
+            
+            xcodebuild test -project "$PROJECT_DIR/$PROJECT_NAME" \
+            CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO \
+            -scheme $SCHEME \
+            -destination 'platform=iOS Simulator,name=iPhone 15 Pro' \

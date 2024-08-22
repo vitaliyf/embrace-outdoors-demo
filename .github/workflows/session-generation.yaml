@@ -3,7 +3,7 @@ name: Session Generator - Xcode
 on:
   workflow_dispatch:
   schedule:
-    - cron: * * * * *
+    - cron: "* * * * *"
   
 jobs:
   xcodebuild:

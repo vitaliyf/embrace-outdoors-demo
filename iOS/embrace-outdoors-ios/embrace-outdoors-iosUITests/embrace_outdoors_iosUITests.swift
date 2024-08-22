@@ -43,32 +43,36 @@ final class embrace_outdoors_iosUITests: XCTestCase {
         // pick number of sessions
         for _ in 0...getNumberOfSessions() {
             // Do stuff
-            runRandomActions()
-            
-            // Maybe crash
-            //TODO: Make this variable by device OS version
-            let probability = Int.random(in: 0...99)
-            if probability > 98 {
-                tapCrashButton()
-            }
-            
-            // Do more stuff
-            runRandomActions()
+            runNormalFlow()
 
             //Send to background to upload session
-            let settings = XCUIApplication(bundleIdentifier: "com.apple.Preferences")
-            settings.launch()
-            XCTAssertTrue(app.wait(for: .runningBackground, timeout: 2.0))
-            app.activate()
+            backgroundApp()
+            foregroundApp()
         }
+        runNormalFlow()
+        backgroundApp()
+        XCTAssert(true)
+    }
+    
+    //MARK: Test Script
+    private func runNormalFlow() {
+        // Do stuff
+        runRandomActions()
         
+        // Maybe crash
+        calculateAndCreateCrash()
         
-        //complete to send to background to upload session
+        // Do more stuff
+        runRandomActions()
+    }
+    
+    private func backgroundApp() {
         let settings = XCUIApplication(bundleIdentifier: "com.apple.Preferences")
         settings.launch()
-        
-        XCTAssertTrue(app.wait(for: .runningBackground, timeout: 2.0))
-        app.terminate()
+    }
+    
+    private func foregroundApp() {
+        app.activate()
     }
     
     private func runRandomActions() {
@@ -83,9 +87,17 @@ final class embrace_outdoors_iosUITests: XCTestCase {
     }
     
     private func getNumberOfSessions() -> Int {
-        Int.random(in: 1...4)
+        Int.random(in: 1...6)
     }
     
+    private func calculateAndCreateCrash() {
+        //TODO: Make this variable by device OS version
+        let probability = Int.random(in: 0...99)
+        if probability > 98 {
+            tapCrashButton()
+        }
+    }
+
     //MARK: Navigation
     private func checkOnMainView() {
         let mainListView = app.collectionViews["main-list-view"]

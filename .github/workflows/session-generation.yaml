@@ -57,15 +57,11 @@ jobs:
           timeout-minutes: 5
           continue-on-error: false
         
-        - name: Display All Available iPhone Simulators
-          run: |
-            echo $CLONED_DEVICE_LIST
-            xcrun simctl list devices available
-          timeout-minutes: 2
-          continue-on-error: true
-        
         - name: Run Tests With Cloned Simulators
           env:
+            PROJECT_DIR: ./iOS/embrace-outdoors-ios
+            PROJECT_NAME: embrace-outdoors-ios.xcodeproj
+            SCHEME: embrace-outdoors-ios
             IS_XCTEST: true
           run: |
             IFS="," read -ra cloned_devices <<< "${CLONED_DEVICE_LIST}"
@@ -73,26 +69,15 @@ jobs:
             echo "Cloned device count:"
             echo "${#cloned_devices[@]}"
             
-            count=0
-            limit=3
-            
             for device in ${cloned_devices[@]}
             do
-                if [[ $count -gt limit ]]
-                then
-                    echo "that's enough tests"
-                    exit 0
-                else
-                    ((count++))
+                xcrun simctl boot $device
+                xcrun simctl bootstatus $device && sleep 2
+                
+                xcodebuild test -project "$PROJECT_DIR/$PROJECT_NAME" \
+                CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO \
+                -scheme $SCHEME \
+                -destination 'platform=iOS Simulator,name=$device' \
                     
-                    xcrun simctl boot $device
-                    xcrun simctl bootstatus $device && sleep 2
-                    
-                    xcodebuild test -project Embrace\ Outdoors.xcodeproj \
-                    CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO \
-                    -scheme Embrace\ Outdoors \
-                    -destination 'platform=iOS Simulator,name=$device' \
-                    
-                    xcrun simctl delete $device
-                fi
+                xcrun simctl delete $device
             done

@@ -110,7 +110,7 @@ extension MainViewModel {
             self.makeWorkingNetworkCall()
             
             traceRootSpan.addEvent(name: "making old-style network call")
-            self.makeQuietCallbackNetworkCall()
+            self.makeCallbackWorkingNetworkCall()
             
             sleep(1)
         }

@@ -10,9 +10,10 @@ import Foundation
 extension MainViewModel {
     //MARK: Network Actions
     func makeMockEndpointCall() {
-        Task {
-            await postNSFMockEndPoint()
-        }
+        postCallBackNSFMockEndPoint()
+//        Task {
+//            await postNSFMockEndPoint()
+//        }
     }
     
     private func postNSFMockEndPoint() async {
@@ -28,13 +29,25 @@ extension MainViewModel {
         }
     }
     
-    func makeWorkingNetworkCall() {
-        Task {
-            await fetchParkDataForSelectedState()
-        }
+    private func postCallBackNSFMockEndPoint() {
+        //This endpoint expects a header for NSF. Must be https
+        let url = URL(string: "https://dash-api.embrace.io/mock/trace_forwarding")!
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+
+        URLSession.shared.dataTask(with: request) { d, r, e in
+            guard let data = d else { return }
+        }.resume()
     }
     
-    func makeQuietCallbackNetworkCall() {
+    func makeWorkingNetworkCall() {
+        makeCallbackWorkingNetworkCall()
+//        Task {
+//            await fetchParkDataForSelectedState()
+//        }
+    }
+    
+    func makeCallbackWorkingNetworkCall() {
         //network request to test older, non-async networking
         let stateCode = StatesList.getAbbrevFrom(name: selectedState)
         let url = URL(
@@ -72,9 +85,10 @@ extension MainViewModel {
     }
     
     func makeForbiddenCall() {
-        Task {
-            await fetchForbiddenData()
-        }
+        makeCallbackForbiddenDataCall()
+//        Task {
+//            await fetchForbiddenData()
+//        }
     }
     
     private func fetchForbiddenData() async {
@@ -88,10 +102,21 @@ extension MainViewModel {
         }
     }
     
+    private func makeCallbackForbiddenDataCall() {
+        //network request to test older, non-async networking
+        let url = URL(string: "https://developer.nps.gov/api/v1/lessonplans")!
+        
+        URLSession.shared.dataTask(with: url) { d, r, e in
+            guard let data = d else { return }
+            print(data)
+        }.resume()
+    }
+    
     func makeTimeoutCall() {
-        Task {
-            await fetchTimeout()
-        }
+        makeCallbackTimeoutCall()
+//        Task {
+//            await fetchTimeout()
+//        }
     }
     
     private func fetchTimeout() async {
@@ -110,5 +135,24 @@ extension MainViewModel {
         } catch {
             print("error with timeout call:\n \(error)")
         }
+    }
+    
+    private func makeCallbackTimeoutCall() {
+        //network request to test older, non-async networking
+        let sessionConfig = URLSessionConfiguration.default
+        sessionConfig.timeoutIntervalForRequest = 0.01
+        sessionConfig.timeoutIntervalForResource = 0.01
+        let session = URLSession(configuration: sessionConfig)
+        
+        let url = URL(
+            string: "https://developer.nps.gov/api/v1/lessonplans?api_key=snTswDbB4TUdS3BjIh4TUoaJx56xXI0JKfU3kLZF"
+        )!
+        session.dataTask(
+            with: url,
+            completionHandler: { d, r, e in
+                guard let data = d else { return }
+                print(data)
+            }
+        ).resume()
     }
 }

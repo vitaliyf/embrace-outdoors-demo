@@ -1,0 +1,55 @@
+name: Xcode - CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+  release:
+    types: [released, prereleased]
+  workflow_dispatch:
+
+env:
+  PROJECT: embrace-outdoors-ios
+
+jobs:
+  xcode-build:
+    timeout-minutes: 20
+    runs-on: macos-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        xcode_version: ["15.4"]
+    steps:
+      - name: Select Xcode
+        # See https://github.com/actions/runner-images/blob/main/images/macos/macos-14-Readme.md
+        run: |
+          sudo xcode-select -s /Applications/Xcode_${{ matrix.xcode_version }}.app
+          xcodebuild -version
+
+      - uses: actions/checkout@v4
+
+      - uses: actions/cache@v4
+        with:
+          path: build/
+          key: ${{ runner.os }}-swiftpm-${{ hashFiles('iOS/embrace-outdoors-ios/embrace-outdoors-ios.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved') }}
+          restore-keys: |
+            ${{ runner.os }}-swiftpm-
+
+      - name: xcodebuild build
+        env:
+          IS_XCTEST: true # Needed to disable SwiftLint -> SwiftSyntax plugin dependency build issue
+        run: |
+          set -o pipefail && xcodebuild build -project "iOS/${{ env.PROJECT }}/${{ env.PROJECT }}.xcodeproj" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO \
+          -scheme "${{ env.PROJECT }}" -sdk iphonesimulator -derivedDataPath "build/DerivedData" -clonedSourcePackagesDirPath "build/" | xcpretty
+
+      - uses: embrace-io/action-symbol-upload@v1.3
+        with:
+          app_id: "${{ vars.EMBRACE_APP_ID }}"
+          api_token: "${{ secrets.EMBRACE_API_TOKEN }}"
+
+      - name: Save binary
+        if: true # ${{ github.event_name == "release" }}
+        run: |
+          # TODO: Save app binary as artifact or attach it to GitHub release
+          ls -l

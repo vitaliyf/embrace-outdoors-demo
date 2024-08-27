@@ -3,12 +3,15 @@ name: Xcode - Integration Testing
 on:
   workflow_dispatch:
   schedule:
-    - cron: "*/15 * * * *"
+    - cron: "*/20 * * * *"
+
+env:
+  PROJECT: embrace-outdoors-ios
 
 jobs:
-  xcodebuild-test:
-    timeout-minutes: 20
-    runs-on: macos-14
+  xcode-test:
+    timeout-minutes: 25
+    runs-on: macos-latest
     strategy:
       fail-fast: false
       matrix:
@@ -21,25 +24,30 @@ jobs:
       - name: Select Xcode
         # See https://github.com/actions/runner-images/blob/main/images/macos/macos-14-Readme.md
         run: |
-            sudo xcode-select -s /Applications/Xcode_${{ matrix.xcode_version }}.app
-            xcodebuild -version
+          sudo xcode-select -s /Applications/Xcode_${{ matrix.xcode_version }}.app
+          xcodebuild -version
+
+      - name: Boot simulator
+        run: |
+          xcrun simctl boot "${{ matrix.device }}"
+          xcrun simctl bootstatus "${{ matrix.device }}"
 
       - uses: actions/checkout@v4
 
-      - name: Start simulator
+      - name: Set Embrace appId
         run: |
-            xcrun simctl boot "${{ matrix.device }}"
-            xcrun simctl bootstatus "${{ matrix.device }}"
-            sleep 2
+          sed -i.bak 's/appId: ".*"/appId: "${{ vars.EMBRACE_APP_ID }}"/' iOS/${{ env.PROJECT }}/${{ env.PROJECT }}/App/EmbraceOutdoorsApp.swift
 
-      - name: Run application
+      - uses: actions/cache@v4
+        with:
+          path: build/
+          key: ${{ runner.os }}-swiftpm-${{ hashFiles('iOS/embrace-outdoors-ios/embrace-outdoors-ios.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved') }}
+          restore-keys: |
+            ${{ runner.os }}-swiftpm-
+
+      - name: xcodebuild test
         env:
-            IS_XCTEST: true
-            PROJECT_DIR: ./iOS/embrace-outdoors-ios
-            PROJECT_NAME: embrace-outdoors-ios.xcodeproj
-            SCHEME: embrace-outdoors-ios
+          IS_XCTEST: true # Needed to disable SwiftLint -> SwiftSyntax plugin dependency build issue
         run: |
-            xcodebuild test -project "$PROJECT_DIR/$PROJECT_NAME" \
-            CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO \
-            -scheme $SCHEME \
-            -destination 'platform=iOS Simulator,name=${{ matrix.device }}'
+          set -o pipefail && xcodebuild test -project "iOS/${{ env.PROJECT }}/${{ env.PROJECT }}.xcodeproj" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO \
+          -scheme "${{ env.PROJECT }}" -derivedDataPath "build/DerivedData" -clonedSourcePackagesDirPath "build/" -destination "platform=iOS Simulator,name=${{ matrix.device }}" | xcpretty

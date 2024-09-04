@@ -19,7 +19,7 @@ jobs:
         device:
           - "iPhone 15"
           - "iPhone 14 Plus"
-          - "iPhone 13 Pro"
+          - "iPhone 14 Pro"
     steps:
       - name: Select Xcode
         # See https://github.com/actions/runner-images/blob/main/images/macos/macos-14-Readme.md

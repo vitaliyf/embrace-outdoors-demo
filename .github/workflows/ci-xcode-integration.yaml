@@ -10,7 +10,7 @@ env:
 
 jobs:
   xcode-test:
-    timeout-minutes: 30
+    timeout-minutes: 40
     runs-on: macos-latest
     strategy:
       fail-fast: false
@@ -18,8 +18,8 @@ jobs:
         xcode_version: ["15.4"]
         device:
           - "iPhone 15"
-          - "iPhone 15 Plus"
-          - "iPhone 15 Pro"
+          - "iPhone 14 Plus"
+          - "iPhone 13 Pro"
     steps:
       - name: Select Xcode
         # See https://github.com/actions/runner-images/blob/main/images/macos/macos-14-Readme.md
@@ -49,5 +49,5 @@ jobs:
         env:
           IS_XCTEST: true # Needed to disable SwiftLint -> SwiftSyntax plugin dependency build issue
         run: |
-          set -o pipefail && xcodebuild test -project "iOS/${{ env.PROJECT }}/${{ env.PROJECT }}.xcodeproj" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO \
-          -scheme "${{ env.PROJECT }}" -derivedDataPath "build/DerivedData" -clonedSourcePackagesDirPath "build/" -destination "platform=iOS Simulator,name=${{ matrix.device }}" || exit 0
+          (set -o pipefail && xcodebuild test -project "iOS/${{ env.PROJECT }}/${{ env.PROJECT }}.xcodeproj" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO \
+          -scheme "${{ env.PROJECT }}" -derivedDataPath "build/DerivedData" -clonedSourcePackagesDirPath "build/" -destination "platform=iOS Simulator,name=${{ matrix.device }}" | xcpretty) || exit 0

@@ -20,9 +20,13 @@ struct EmbraceOutdoorsApp: App {
         do {
             try Embrace.setup(
                 options: Embrace.Options(
-                    appId: "00000",
+                    appId: "Xa2Ch",
                     platform: .default,
-                    export: nil
+                    endpoints: Embrace.Endpoints(
+                      baseURL: "https://a-84eN2.config.emb-api.com",
+                      developmentBaseURL: "https://a-84eN2.data.eu1.emb-api.com",
+                      configBaseURL: "https://a-84eN2.data.eu1.emb-api.com"
+                    )
                 )
             )
             .start()

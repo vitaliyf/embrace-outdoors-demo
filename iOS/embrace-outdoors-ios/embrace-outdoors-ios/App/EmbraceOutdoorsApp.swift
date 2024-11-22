@@ -23,9 +23,9 @@ struct EmbraceOutdoorsApp: App {
                     appId: "Xa2Ch",
                     platform: .default,
                     endpoints: Embrace.Endpoints(
-                      baseURL: "https://a-84eN2.config.emb-api.com",
+                      baseURL: "https://a-84eN2.data.eu1.emb-api.com",
                       developmentBaseURL: "https://a-84eN2.data.eu1.emb-api.com",
-                      configBaseURL: "https://a-84eN2.data.eu1.emb-api.com"
+                      configBaseURL: "https://a-84eN2.config.emb-api.com"
                     )
                 )
             )

@@ -26,7 +26,7 @@ class DetailViewModel {
     
     func logViewAppeared() {
         Embrace.client?.log(
-            "Detail View Model Appeared for \(park.parkName)",
+            "Detail View Appeared for \(park.parkName)",
             severity: .info
         )
     }

@@ -10,7 +10,6 @@ env:
 
 jobs:
   xcode-test:
-    timeout-minutes: 40
     runs-on: macos-latest
     strategy:
       fail-fast: false
@@ -28,6 +27,7 @@ jobs:
           xcodebuild -version
 
       - name: Boot simulator
+        timeout-minutes: 5
         run: |
           xcrun simctl boot "${{ matrix.device }}"
           xcrun simctl bootstatus "${{ matrix.device }}"
@@ -46,6 +46,7 @@ jobs:
             ${{ runner.os }}-swiftpm-
 
       - name: xcodebuild test
+        timeout-minutes: 30
         env:
           IS_XCTEST: true # Needed to disable SwiftLint -> SwiftSyntax plugin dependency build issue
         run: |

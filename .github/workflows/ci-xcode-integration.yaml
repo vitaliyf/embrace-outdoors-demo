@@ -30,7 +30,6 @@ jobs:
         timeout-minutes: 5
         run: |
           xcrun simctl boot "${{ matrix.device }}"
-          xcrun simctl bootstatus "${{ matrix.device }}"
 
       - uses: actions/checkout@v4
 

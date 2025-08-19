@@ -8,7 +8,7 @@ The Embrace Outdoors demo app is a great source of instrumentation and implement
 
 Currently, the demo app is written for iOS in Swift and is available for download in TestFlight.  
 
-### License
+## License
 
 [![Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-orange)](./LICENSE.txt)
 

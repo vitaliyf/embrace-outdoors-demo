@@ -5,6 +5,6 @@ updates:
     schedule:
       interval: "daily"
   - package-ecosystem: "swift"
-    directory: "/"
+    directory: "iOS/embrace-outdoors-ios/embrace-outdoors-ios.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/"
     schedule:
       interval: "daily"

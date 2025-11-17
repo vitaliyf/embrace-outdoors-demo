@@ -8,10 +8,6 @@ on:
 env:
   PROJECT: embrace-outdoors-ios
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.event.release.id || github.ref }}
-  cancel-in-progress: false
-
 jobs:
   xcode-test:
     timeout-minutes: 38

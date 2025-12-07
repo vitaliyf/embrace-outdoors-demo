@@ -3,7 +3,7 @@ name: Xcode - Integration Testing
 on:
   workflow_dispatch:
   schedule:
-    - cron: "*/40 * * * *"
+    - cron: "*/40 */4 * * *"
 
 env:
   PROJECT: embrace-outdoors-ios
